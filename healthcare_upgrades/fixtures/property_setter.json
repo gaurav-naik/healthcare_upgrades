@@ -1,0 +1,19 @@
+[
+ {
+  "_assign": null, 
+  "_comments": null, 
+  "_liked_by": null, 
+  "_user_tags": null, 
+  "default_value": null, 
+  "doc_type": "Physician", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "physician_schedule", 
+  "modified": "2018-12-16 10:32:13.206356", 
+  "name": "Physician-physician_schedule-hidden", 
+  "property": "hidden", 
+  "property_type": "Check", 
+  "value": "1"
+ }
+]

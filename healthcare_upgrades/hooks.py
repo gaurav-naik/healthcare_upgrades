@@ -84,7 +84,10 @@ doctype_js = {
 doc_events = {
 	"Patient": {
 		"on_update": "healthcare_upgrades.hu_patient.on_update",
-	}
+	},
+    "Physician": {
+        "validate": "healthcare_upgrades.hu_physician.validate",
+    }
 }
 
 # Scheduled Tasks
@@ -130,7 +133,17 @@ fixtures = [
                 "Patient-hu_first_name",
                 "Patient-hu_cb_basic_info_1",
                 "Patient-hu_phone_no",
+                "Physician-hu_physician_schedule",
+                "Physician-hu_appointment_color"
             ]
         ]]
-    }
+    },
+    {
+        "dt":"Property Setter", 
+        "filters": [[
+            "name", "in", [
+                "Physician-physician_schedule-hidden"
+            ]
+        ]]
+    },
 ]
