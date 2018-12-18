@@ -27,11 +27,14 @@ app_license = "MIT"
 
 # include js in doctype views
 doctype_js = {
-    "Patient" : "public/js/hu_patient.js"
+    "Patient" : "public/js/hu_patient.js",
+    "Patient Appointment": "public/js/hu_patient_appointment.js"
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
-# doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
+doctype_calendar_js = {
+    "Patient Appointment" : "public/js/patient_appointment_calendar.js"
+}
 
 # Home Pages
 # ----------
@@ -87,6 +90,9 @@ doc_events = {
 	},
     "Physician": {
         "validate": "healthcare_upgrades.hu_physician.validate",
+    },
+    "Patient Appointment": {
+        "on_update": "healthcare_upgrades.hu_patient_appointment.on_update",
     }
 }
 
@@ -134,7 +140,12 @@ fixtures = [
                 "Patient-hu_cb_basic_info_1",
                 "Patient-hu_phone_no",
                 "Physician-hu_physician_schedule",
-                "Physician-hu_appointment_color"
+                "Physician-hu_appointment_color",
+                "Patient Appointment-hu_procedure",
+                "Patient Appointment-hu_procedure_name",
+                "Patient Appointment-hu_appointment_color",
+                "Patient Appointment-hu_appointment_end_datetime",
+                "Patient Appointment-hu_appointment_description"
             ]
         ]]
     },
@@ -142,7 +153,8 @@ fixtures = [
         "dt":"Property Setter", 
         "filters": [[
             "name", "in", [
-                "Physician-physician_schedule-hidden"
+                "Physician-physician_schedule-hidden",
+                "Patient Appointment-check_availability-hidden"
             ]
         ]]
     },

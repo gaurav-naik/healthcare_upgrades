@@ -15,5 +15,22 @@
   "property": "hidden", 
   "property_type": "Check", 
   "value": "1"
+ }, 
+ {
+  "_assign": null, 
+  "_comments": null, 
+  "_liked_by": null, 
+  "_user_tags": null, 
+  "default_value": null, 
+  "doc_type": "Patient Appointment", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "check_availability", 
+  "modified": "2018-12-18 17:12:21.287776", 
+  "name": "Patient Appointment-check_availability-hidden", 
+  "property": "hidden", 
+  "property_type": "Check", 
+  "value": "1"
  }
 ]
