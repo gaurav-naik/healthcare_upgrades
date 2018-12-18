@@ -93,7 +93,12 @@ doc_events = {
     },
     "Patient Appointment": {
         "on_update": "healthcare_upgrades.hu_patient_appointment.on_update",
-    }
+    },
+    "Sales Invoice": {
+		"on_submit": "healthcare_upgrades.hu_sales_invoice.on_submit",
+		"validate": "healthcare_upgrades.hu_sales_invoice.validate",
+		"on_cancel": "healthcare_upgrades.hu_sales_invoice.on_cancel",
+	}
 }
 
 # Scheduled Tasks
@@ -148,7 +153,15 @@ fixtures = [
                 "Patient Appointment-hu_procedure_name",
                 "Patient Appointment-hu_appointment_color",
                 "Patient Appointment-hu_appointment_end_datetime",
-                "Patient Appointment-hu_appointment_description"
+                "Patient Appointment-hu_appointment_description",
+                "Sales Invoice-hu_physician",
+                "Sales Invoice-hu_mode_of_payment",
+                "Sales Invoice-hu_payment_entry_reference",
+                "Sales Invoice-hu_sb_appointment_details",
+                "Sales Invoice-hu_diagnoses",
+                "Sales Invoice-hu_cb_appointment_details_1",
+                "Sales Invoice-hu_appointment_from_time",
+                "Sales Invoice-hu_appointment_to_time"
             ]
         ]]
     },
