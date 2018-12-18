@@ -4,6 +4,11 @@ from frappe.contacts.doctype.address.address import get_address_display, get_def
 from frappe.contacts.doctype.contact.contact import get_default_contact
 from frappe.utils.html_utils import sanitize_html
 
+#For Create Sales Invoice Override 
+from erpnext.controllers.accounts_controller import get_default_taxes_and_charges
+from erpnext.healthcare.doctype.patient_appointment.patient_appointment import get_fee_validity
+from erpnext.healthcare.doctype.healthcare_settings.healthcare_settings import get_receivable_account,get_income_account
+
 
 def on_update(doc, method):
     appointment_description = generate_appointment_description(doc)
@@ -185,8 +190,56 @@ def unlink_and_delete_sales_invoice(patient_appointment):
 	frappe.delete_doc("Sales Invoice", sales_invoice.name)
 	frappe.db.commit()
 
+@frappe.whitelist()
+def create_invoice(company, physician, patient, appointment_id, appointment_date):
+    print("EXXON VALDEZ")
+    if not appointment_id:
+		return False
+    sales_invoice = frappe.new_doc("Sales Invoice")
+    sales_invoice.customer = frappe.get_value("Patient", patient, "customer")
+    sales_invoice.appointment = appointment_id
+    sales_invoice.hu_physician = frappe.db.get_value("Patient Appointment", appointment_id, "physician")
+    sales_invoice.due_date = frappe.utils.getdate()
+    sales_invoice.is_pos = '0'
+    sales_invoice.debit_to = get_receivable_account(company)
+    sales_invoice.mode_of_payment =  frappe.db.get_value("IDR Settings", "IDR Settings", "mode_of_payment")
+    appointment = frappe.get_doc("Patient Appointment", appointment_id)
+
+    default_selling_price_list = frappe.db.get_value("IDR Settings", "IDR Settings", "default_selling_price_list")
+    rate = frappe.db.get_value("Item Price", {"item_code":appointment.hu_procedure, "price_list":default_selling_price_list}, "price_list_rate")
+    sales_invoice.append("items", {
+        "item_code": appointment.hu_procedure,
+        "description":  frappe.db.get_value("Item", appointment.hu_procedure, "description"),
+        "qty": 1,
+        "uom": "Nos",
+        "conversion_factor": 1,
+        "income_account": get_income_account(physician, company),
+        "rate": rate, 
+        "amount": rate,
+        "item_group": frappe.db.get_value("Item", {"item_code":appointment.hu_procedure}, "item_group")
+    })
+	
+    taxes = get_default_taxes_and_charges("Sales Taxes and Charges Template", company=company)
+    if taxes.get('taxes'):
+        sales_invoice.update(taxes)
+
+    sales_invoice.save(ignore_permissions=True)
+
+    fee_validity = get_fee_validity(physician, patient, appointment_date)
+
+    frappe.db.sql("""update `tabPatient Appointment` set sales_invoice=%s where name=%s""", (sales_invoice.name, appointment_id))
+    frappe.db.set_value("Fee Validity", fee_validity.name, "ref_invoice", sales_invoice.name)
+    consultation = frappe.db.exists({
+            "doctype": "Consultation",
+            "appointment": appointment_id})
+    if consultation:
+        frappe.db.set_value("Consultation", consultation[0][0], "invoice", sales_invoice.name)
+
+    return sales_invoice.name
+
 def generate_appointment_description(doc):
 	return frappe.db.get_value("Patient", doc.patient, "hu_last_name") + " " + \
 		frappe.db.get_value("Patient", doc.patient, "hu_first_name")[0].upper() + ". " + \
 		frappe.db.get_value("Physician", doc.physician, "last_name")[0].upper() + \
 		frappe.db.get_value("Physician", doc.physician, "first_name")[0].upper()
+

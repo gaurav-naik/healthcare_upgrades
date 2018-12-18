@@ -128,6 +128,9 @@ doc_events = {
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "healthcare_upgrades.event.get_events"
 # }
+override_whitelisted_methods = {
+	"erpnext.healthcare.doctype.patient_appointment.patient_appointment.create_invoice":"healthcare_upgrades.hu_patient_appointment.create_invoice"
+}
 
 fixtures = [
     {
