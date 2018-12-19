@@ -145,7 +145,7 @@ fixtures = [
                 "Patient-hu_sb_basic_info",
                 "Patient-hu_last_name",
                 "Patient-hu_first_name",
-                "Patient-hu_cb_basic_info_1",
+                "Patient-hu_cb_basic_info1",
                 "Patient-hu_phone_no",
                 "Physician-hu_physician_schedule",
                 "Physician-hu_appointment_color",

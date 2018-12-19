@@ -192,7 +192,6 @@ def unlink_and_delete_sales_invoice(patient_appointment):
 
 @frappe.whitelist()
 def create_invoice(company, physician, patient, appointment_id, appointment_date):
-    print("EXXON VALDEZ")
     if not appointment_id:
 		return False
     sales_invoice = frappe.new_doc("Sales Invoice")
