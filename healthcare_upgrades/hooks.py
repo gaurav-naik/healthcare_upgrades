@@ -161,7 +161,8 @@ fixtures = [
                 "Sales Invoice-hu_diagnoses",
                 "Sales Invoice-hu_cb_appointment_details_1",
                 "Sales Invoice-hu_appointment_from_time",
-                "Sales Invoice-hu_appointment_to_time"
+                "Sales Invoice-hu_appointment_to_time",
+                "Sales Invoice-hu_expenses"
             ]
         ]]
     },
