@@ -5,6 +5,9 @@ def on_update(doc, method):
     if doc.customer and frappe.db.exists("Customer", doc.customer):
         customer = frappe.get_doc("Customer", doc.customer)
         customer.customer_name = doc.patient_name
+        customer.hu_first_name = doc.hu_first_name
+        customer.hu_last_name = doc.hu_last_name
+        customer.hu_gender = doc.sex
         customer.gender = doc.sex
         customer.save()
         frappe.db.commit()

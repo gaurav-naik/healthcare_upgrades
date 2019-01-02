@@ -28,7 +28,8 @@ app_license = "MIT"
 # include js in doctype views
 doctype_js = {
     "Patient" : "public/js/hu_patient.js",
-    "Patient Appointment": "public/js/hu_patient_appointment.js"
+    "Patient Appointment": "public/js/hu_patient_appointment.js",
+    "Customer": "public/js/hu_customer.js"
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -98,7 +99,11 @@ doc_events = {
 		"on_submit": "healthcare_upgrades.hu_sales_invoice.on_submit",
 		"validate": "healthcare_upgrades.hu_sales_invoice.validate",
 		"on_cancel": "healthcare_upgrades.hu_sales_invoice.on_cancel",
-	}
+	},
+    "Customer": {
+        "validate": "healthcare_upgrades.hu_customer.validate",
+        "on_update": "healthcare_upgrades.hu_customer.on_update",
+    }
 }
 
 # Scheduled Tasks
@@ -162,7 +167,20 @@ fixtures = [
                 "Sales Invoice-hu_cb_appointment_details_1",
                 "Sales Invoice-hu_appointment_from_time",
                 "Sales Invoice-hu_appointment_to_time",
-                "Sales Invoice-hu_expenses"
+                "Sales Invoice-hu_expenses",
+                "Customer-hu_basic_info",
+                "Customer-hu_first_name",
+                "Customer-hu_last_name",
+                "Customer-hu_cb_basic_info_1",
+                "Customer-hu_gender",
+                "Customer-hu_date_of_birth",
+                "Customer-hu_place_of_birth",
+                "Customer-hu_sb_address_info",
+                "Customer-hu_address_line1",
+                "Customer-hu_address_line2",
+                "Customer-hu_cb_address_info_1",
+                "Customer-hu_town",
+                "Customer-hu_pincode"
             ]
         ]]
     },
@@ -171,7 +189,10 @@ fixtures = [
         "filters": [[
             "name", "in", [
                 "Physician-physician_schedule-hidden",
-                "Patient Appointment-check_availability-hidden"
+                "Patient Appointment-check_availability-hidden",
+                "Customer-quick_entry",
+                "Customer-customer_type-default",
+                "Patient-sex-default"
             ]
         ]]
     },
