@@ -192,7 +192,9 @@ fixtures = [
                 "Patient Appointment-check_availability-hidden",
                 "Customer-quick_entry",
                 "Customer-customer_type-default",
-                "Patient-sex-default"
+                "Patient-sex-default",
+                "Customer-basic_info-collapsible",
+                "Customer-basic_info-collapsible_depends_on"
             ]
         ]]
     },
