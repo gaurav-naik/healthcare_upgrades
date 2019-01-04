@@ -6,6 +6,8 @@ def on_submit(doc, method):
 	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 	new_payment_entry = get_payment_entry(doc.doctype, doc.name)
 	new_payment_entry.mode_of_payment = doc.hu_mode_of_payment
+	new_payment_entry.paid_to = frappe.db.get_value("Mode of Payment Account", {"company":doc.company, "parent":doc.hu_mode_of_payment}, "default_account")
+	new_payment_entry.paid_to_account_currency = frappe.db.get_value("Account", {"account_name":new_payment_entry.paid_to}, "account_currency")
 	new_payment_entry.reference_no = "-"
 	new_payment_entry.reference_date = doc.posting_date or frappe.utils.getdate()
 	new_payment_entry.save()
