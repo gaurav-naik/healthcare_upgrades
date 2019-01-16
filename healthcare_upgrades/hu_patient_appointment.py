@@ -202,7 +202,7 @@ def create_invoice(company, physician, patient, appointment_id, appointment_date
 	sales_invoice.due_date = frappe.utils.getdate()
 	sales_invoice.is_pos = '0'
 	sales_invoice.debit_to = get_receivable_account(company)
-	sales_invoice.hu_mode_of_payment =  frappe.db.get_value("HU Settings", "HU Settings", "default_mode_of_payment")
+	sales_invoice.mode_of_payment =  frappe.db.get_value("HU Settings", "HU Settings", "default_mode_of_payment")
 	appointment = frappe.get_doc("Patient Appointment", appointment_id)
 
 	default_selling_price_list = frappe.db.get_value("IDR Settings", "IDR Settings", "default_selling_price_list")
