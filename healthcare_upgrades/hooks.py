@@ -161,6 +161,7 @@ fixtures = [
                 "Patient Appointment-hu_appointment_description",
                 "Sales Invoice-hu_physician",
                 "Sales Invoice-hu_mode_of_payment",
+                "Sales Invoice-mode_of_payment",
                 "Sales Invoice-hu_payment_entry_reference",
                 "Sales Invoice-hu_sb_appointment_details",
                 "Sales Invoice-hu_diagnoses",
