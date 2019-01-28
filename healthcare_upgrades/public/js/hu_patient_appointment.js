@@ -108,7 +108,7 @@ function check_physician_availability(frm) {
 	}
 
 	function show_availability(data) {
-		console.log("slots", data.available_slots);
+		// console.log("slots", data.available_slots);
 		// console.log("appointments", data.appointments);
 		// console.log("room_appointments", data.appointments_requiring_rooms);
 
@@ -119,13 +119,14 @@ function check_physician_availability(frm) {
 			primary_action: function() {
 				// book slot
 				frm.set_value('appointment_time', selected_slot);
-				frm.set_value('duration', data.time_per_appointment);
+				frm.set_value('duration', data.time_per_appointment * $selected_slots.length);
 				d.hide();
 				frm.save();
 			}
 		});
 		var $wrapper = d.fields_dict.available_slots.$wrapper;
 		var selected_slot = null;
+		var $selected_slots = [];
 
 		// disable dialog action initially
 		d.get_primary_btn().attr('disabled', true);
@@ -157,9 +158,19 @@ function check_physician_availability(frm) {
 		// blue button when clicked
 		$wrapper.on('click', 'button', function() {
 			var $btn = $(this);
-			$wrapper.find('button').removeClass('btn-primary');
-			$btn.addClass('btn-primary');
-			selected_slot = $btn.attr('data-name');
+
+			if ($btn.hasClass('btn-primary')) {
+				$btn.removeClass('btn-primary')
+			} else {
+				if($btn.prev().hasClass('btn-primary') || $btn.next().hasClass('btn-primary')) {
+					$btn.addClass('btn-primary')
+				} else {
+					$wrapper.find('button').removeClass('btn-primary');
+					$btn.addClass('btn-primary')
+				}
+			}
+			$selected_slots = $wrapper.find('.btn-primary');
+			selected_slot = $selected_slots.first().attr('data-name');
 
 			// enable dialog action
 			d.get_primary_btn().attr('disabled', null);
