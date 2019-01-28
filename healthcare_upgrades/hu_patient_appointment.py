@@ -66,14 +66,14 @@ def get_availability_data(date, physician):
 	available_slots = []
 	physician_schedule_name = None
 	physician_schedule = None
-	time_per_appointment = None
+	time_per_appointment = 0
 	
 
 	# get physicians schedule
 	physician_schedule_name = frappe.db.get_value("Physician", physician, "hu_physician_schedule")
 	if physician_schedule_name:
 		physician_schedule = frappe.get_doc("HU Physician Schedule", physician_schedule_name)
-		time_per_appointment = frappe.db.get_value("Physician", physician, "time_per_appointment")
+		time_per_appointment = int(frappe.db.get_value("Physician", physician, "time_per_appointment") or 0)
 	else:
 		frappe.throw(_("Dr {0} does not have a Physician Schedule. Add it in Physician master".format(physician)))
 
@@ -109,6 +109,19 @@ def get_availability_data(date, physician):
 		"Patient Appointment",
 		filters={"physician": physician, "appointment_date": date},
 		fields=["name", "appointment_time", "duration", "status"])
+	
+	#190127: Postprocess appointments: If appointment duration exceeds physician's time per appointment, add dummy appointments in 
+	# data, so that they appear as booked slots.
+	ghost_appointments = [] #Additional appointment slots which represent an actual appointment
+	for appointment in appointments:
+		print(appointment.name, appointment.duration, time_per_appointment, appointment.appointment_time, appointment.against)
+		if appointment.duration > time_per_appointment:
+			start_time = appointment.appointment_time + frappe.utils.datetime.timedelta(minutes=time_per_appointment)
+			for x in xrange(1, appointment.duration/time_per_appointment): #For a 60 minute appointment at 11:00, this loop will add two slots: 11:20, 11:40
+				ghost_slot = frappe._dict(appointment_time=start_time, duration=time_per_appointment, status="Scheduled", against=appointment.name)
+				ghost_appointments.append(ghost_slot)
+				start_time += frappe.utils.datetime.timedelta(minutes=time_per_appointment)
+			appointments += ghost_appointments
 
 	return {
 		"available_slots": available_slots,
