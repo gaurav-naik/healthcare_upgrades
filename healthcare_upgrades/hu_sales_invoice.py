@@ -20,11 +20,16 @@ def validate(doc, method):
 	if not doc.is_return and not doc.mode_of_payment:
 		frappe.throw(_("Please set Mode of Payment."))
 
+	if not doc.is_return and doc.hu_payment_entry_reference and not frappe.db.get_value("Payment Entry", doc.hu_payment_entry_reference):
+		doc.hu_payment_entry_reference = None
+
+
 def on_cancel(doc, method):
 	if not doc.is_return and doc.hu_payment_entry_reference:
-		payment_entry = frappe.get_doc("Payment Entry", doc.hu_payment_entry_reference)
-		payment_entry.cancel()
-		frappe.db.commit()
+		if frappe.db.get_value("Payment Entry", doc.hu_payment_entry_reference):
+			payment_entry = frappe.get_doc("Payment Entry", doc.hu_payment_entry_reference)
+			payment_entry.cancel()
+			frappe.db.commit()
 
-		frappe.delete_doc("Payment Entry", payment_entry.name)
-		frappe.msgprint(_("Payment entry " + doc.hu_payment_entry_reference + " deleted."))
+			frappe.delete_doc("Payment Entry", payment_entry.name)
+			frappe.msgprint(_("Payment entry " + doc.hu_payment_entry_reference + " deleted."))
