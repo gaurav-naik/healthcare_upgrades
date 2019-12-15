@@ -96,6 +96,7 @@ doc_events = {
         "on_update": "healthcare_upgrades.hu_patient_appointment.on_update",
     },
     "Sales Invoice": {
+		"before_submit": "healthcare_upgrades.hu_sales_invoice.before_submit",
 		"on_submit": "healthcare_upgrades.hu_sales_invoice.on_submit",
 		"validate": "healthcare_upgrades.hu_sales_invoice.validate",
 		"on_cancel": "healthcare_upgrades.hu_sales_invoice.on_cancel",
@@ -144,7 +145,7 @@ override_whitelisted_methods = {
 
 fixtures = [
     {
-        "dt":"Custom Field", 
+        "dt":"Custom Field",
         "filters": [[
             "name", "in", [
                 "Patient-hu_sb_basic_info",
@@ -181,12 +182,13 @@ fixtures = [
                 "Customer-hu_address_line2",
                 "Customer-hu_cb_address_info_1",
                 "Customer-hu_town",
-                "Customer-hu_pincode"
+                "Customer-hu_pincode",
+				"Sales Invoice-hu_create_ritenuta_entry"
             ]
         ]]
     },
     {
-        "dt":"Property Setter", 
+        "dt":"Property Setter",
         "filters": [[
             "name", "in", [
                 "Physician-physician_schedule-hidden",
