@@ -29,7 +29,8 @@ app_license = "MIT"
 doctype_js = {
     "Patient" : "public/js/hu_patient.js",
     "Patient Appointment": "public/js/hu_patient_appointment.js",
-    "Customer": "public/js/hu_customer.js"
+    "Customer": "public/js/hu_customer.js",
+	"Sales Invoice": "public/js/hu_sales_invoice.js"
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -96,7 +97,6 @@ doc_events = {
         "on_update": "healthcare_upgrades.hu_patient_appointment.on_update",
     },
     "Sales Invoice": {
-		"before_submit": "healthcare_upgrades.hu_sales_invoice.before_submit",
 		"on_submit": "healthcare_upgrades.hu_sales_invoice.on_submit",
 		"validate": "healthcare_upgrades.hu_sales_invoice.validate",
 		"on_cancel": "healthcare_upgrades.hu_sales_invoice.on_cancel",
@@ -183,7 +183,8 @@ fixtures = [
                 "Customer-hu_cb_address_info_1",
                 "Customer-hu_town",
                 "Customer-hu_pincode",
-				"Sales Invoice-hu_create_ritenuta_entry"
+				"Sales Invoice-hu_create_ritenuta_entry",
+				"Customer-hu_create_ritenuta_entry"
             ]
         ]]
     },
