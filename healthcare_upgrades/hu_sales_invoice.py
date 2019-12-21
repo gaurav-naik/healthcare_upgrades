@@ -37,7 +37,8 @@ def create_ritenuta_je_and_update_advances(doc):
 		"debit_in_account_currency": amount
 	})
 
-	debtors_account = frappe.db.get_value("Account", {"account_name": _("Debtors")}, "name")
+	debtors_account = frappe.db.get_value("Account", {"account_name": "Debtors"}, "name")
+
 	journal_entry.append('accounts', {
 		"account": debtors_account,
 		"party_type": "Customer",
