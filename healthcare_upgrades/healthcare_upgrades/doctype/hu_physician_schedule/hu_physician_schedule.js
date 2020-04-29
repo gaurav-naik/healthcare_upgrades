@@ -30,17 +30,17 @@ frappe.ui.form.on('HU Physician Schedule', {
 					var values = d.get_values();
 					if(values) {
 						var day_values = [
-							{"day":"Monday", "checked":values.monday, "dow":1}, 
-							{"day":"Tuesday", "checked":values.tuesday,"dow":2}, 
+							{"day":"Monday", "checked":values.monday, "dow":1},
+							{"day":"Tuesday", "checked":values.tuesday,"dow":2},
 							{"day":"Wednesday","checked": values.wednesday, "dow":3},
 							{"day":"Thursday","checked": values.thursday, "dow":4},
 							{"day":"Friday","checked": values.friday, "dow":5},
-							{"day":"Saturday","checked": values.saturday, "dow":6} 
+							{"day":"Saturday","checked": values.saturday, "dow":6}
 						];
 
 						var selected_days = day_values.filter(function(day) { return day.checked == 1 });
 						var selected_days_dow=[];
-						
+
 						selected_days.forEach(function(selected_day){
 							selected_days_dow.push(selected_day.dow);
 						});
@@ -48,6 +48,7 @@ frappe.ui.form.on('HU Physician Schedule', {
 						var getDates = function(startDate, endDate) {
 							startDate = new Date(startDate);
 							endDate = new Date(endDate);
+
 							var dates = [],
 								currentDate = startDate,
 								addDays = function(days) {
@@ -73,13 +74,14 @@ frappe.ui.form.on('HU Physician Schedule', {
 							while(cur_time < end_time) {
 								let to_time = cur_time.clone().add(values.duration, 'minutes');
 								if(to_time <= end_time) {
-
-									// add a new timeslot
-									frm.add_child('time_slots', {
+									let time_slot = {
 										from_time: cur_time.format('HH:mm:ss'),
 										to_time: to_time.format('HH:mm:ss'),
-										date: date
-									});
+										date: date.toISOString().split('T')[0]
+									}
+									// add a new timeslot
+									frm.add_child('time_slots', time_slot);
+
 								}
 								cur_time = to_time;
 							}
